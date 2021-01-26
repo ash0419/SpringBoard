@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:beans="http://www.springframework.org/schema/beans" 
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring" 
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven /> <!-- 이 부분이 있어야 controller의 특별한 기능(servlet으로 부터 주소값 매핑 역할)을 가능하게 해준다. -->
+	<context:component-scan base-package="com.koreait.sboard" /> <!-- annotation 검색할 때 -->
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<resources mapping="/res/**" location="/resources/" /> <!-- 여기로 들어오는 주소들은 location의 위치로 매핑한다. css, js, img 파일-->
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+		<beans:property name="order" value="2" /> <!-- 순서가 2번째 -->
+	</beans:bean>
+	
+	<beans:bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<beans:property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />
+		<beans:property name="order" value="1" />
+	</beans:bean>
+	
+	<!-- Tiles 설정 파일 -->
+	<beans:bean class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+		<beans:property name="definitions">
+			<beans:list>
+				<beans:value>/WEB-INF/tiles/tiles.xml</beans:value>
+			</beans:list>
+		</beans:property>
+		<!-- 화면이 이동할 때 마다 실행되게 하는 설정 -->
+		<beans:property name="preparerFactoryClass"
+		value="org.springframework.web.servlet.view.tiles3.SpringBeanPreparerFactory" />
+	</beans:bean>
+
+	<beans:bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<beans:property name="driverClassName" value="com.mysql.cj.jdbc.Driver" /> <!-- property: setter -->
+		<beans:property name="jdbcUrl" value="jdbc:mysql://localhost:3306/board3?serverTimezone=UTC" />
+		<beans:property name="username" value="root" />
+		<beans:property name="password" value="koreait2020" />
+	</beans:bean>
+
+	<beans:bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close"> <!-- destroy-method : 닫을때 rs.close()같은 기능 -->
+		<beans:constructor-arg ref="hikariConfig" /> <!-- ref는 무조건 객체 주소값 스프링에서는 id값 -->
+	</beans:bean>
+
+
+	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<beans:property name="dataSource" ref="dataSource" />
+		<beans:property name="typeAliasesPackage" value="com.koreait.sboard" /> <!-- Alias를 주면 자동을 찾아서 정리해준다. @Alias를 사용할 수 있게 해주는 부분-->
+	</beans:bean>
+	
+	<mybatis-spring:scan base-package="com.koreait.sboard" /> <!-- 위에 네임스페이스 부분에 등록되어 있어야한다. java에선 import -->
+</beans:beans>

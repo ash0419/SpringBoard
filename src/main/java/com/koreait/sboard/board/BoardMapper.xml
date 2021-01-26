@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.koreait.sboard.board.BoardMapper">
+<!-- useGeneratedKeys: insert할 때 자동으로  삽입했던 값을 가지고 올 수 있다.(MySQL에서 사용 가능)
+	keyProperty: insert했던 값을 저장하는 변수-->
+	<insert id="insBoard" parameterType="BoardDto" useGeneratedKeys="true" keyProperty="i_board">
+		 INSERT INTO t_board 
+		 (typ, seq, title, ctnt, i_user) 
+		 SELECT #{typ}, IFNULL(MAX(seq), 0) +1, #{title}, #{ctnt}, #{i_user} 
+		 FROM t_board WHERE typ = #{typ}
+	</insert>
+	<select id="selBoardList" resultType="BoardDomain">
+		SELECT
+		A.i_board, A.seq, A.title, A.r_dt, A.hits, B.i_user, B.nm AS writer_nm,
+		ifnull(C.favorite_cnt, 0) AS favorite_cnt, B.profile_img
+		FROM t_board A
+		LEFT JOIN t_user B ON A.i_user = B.i_user
+		LEFT JOIN (SELECT i_board, COUNT(i_board) AS favorite_cnt
+		FROM t_board_favorite GROUP BY i_board) C ON A.i_board = C.i_board
+		WHERE A.typ = #{typ} ORDER BY seq DESC
+	</select>
+</mapper>
