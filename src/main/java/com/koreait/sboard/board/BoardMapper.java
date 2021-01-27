@@ -12,6 +12,6 @@ import com.koreait.sboard.model.BoardEntity;
 public interface BoardMapper {
 	int insBoard(BoardEntity p);
 	List<BoardDomain> selBoardList(BoardDto p);
-	
-	
+	BoardDomain selBoard(BoardDto p);
+	int delBoard(BoardDto p);
 }

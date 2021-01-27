@@ -17,10 +17,19 @@ public class BoardService {
 	public int insBoard(BoardEntity p) {
 		return mapper.insBoard(p);
 	}
+
+	public BoardDomain selBoard(BoardDto p) {
+		return mapper.selBoard(p);
+	}
+
 	public List<BoardDomain> selBoardList(BoardDto p) {
 		if (p.getTyp() == 0) {
 			p.setTyp(1);
 		}
 		return mapper.selBoardList(p);
+	}
+	
+	public int delBoard(BoardDto p) {
+		return mapper.delBoard(p);
 	}
 }

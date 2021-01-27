@@ -10,5 +10,7 @@
 	<!-- name: 주소값 체계, extends: 템플릿으로 쓰는 name value: {1}은 name의 첫번째 *, {2}은 name의 두번째* -->
 	<definition name="*/*" extends="basic-template">
 		<put-attribute name="content" value="/WEB-INF/views/{1}/{2}.jsp" />
+		<put-attribute name="categoryJS" value="{1}" />
+		<put-attribute name="categoryCSS" value="{1}" />
 	</definition>
 </tiles-definitions>

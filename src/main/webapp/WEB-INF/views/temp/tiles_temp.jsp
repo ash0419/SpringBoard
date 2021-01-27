@@ -6,14 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <title>${title}</title>
-<c:forEach items="${jsList}" var="item">
-	<script asysn src="/res/js/${item}.js"></script>
-	<!-- defer는 맨 밑에 놔둔 효과, async는 화면을 안 느려지게 하는 효과 -->
-</c:forEach>
-<script asysn src="/res/js/common.js"></script>
-<link rel="stylesheet" href="/res/css/board.css">
-<link rel="stylesheet" href="/res/css/common.css">
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+<link rel="stylesheet" href="/res/css/common.css">
+<link rel="stylesheet" href="/res/css/<tiles:getAsString name="categoryCSS" />.css">
+<script defer src="/res/js/common.js"></script>
+<script defer src="/res/js/<tiles:getAsString name="categoryJS" />.js"></script>
 </head>
 <body>
 	<div id="container">
