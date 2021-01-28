@@ -4,13 +4,12 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.koreait.sboard.board.BoardMapper">
-<!-- useGeneratedKeys: insert할 때 자동으로  삽입했던 값을 가지고 올 수 있다.(MySQL에서 사용 가능)
-	keyProperty: insert했던 값을 저장하는 변수-->
+	<!-- useGeneratedKeys: insert할 때 자동으로 삽입했던 값을 가지고 올 수 있다.(MySQL에서 사용 가능) keyProperty: insert했던 값을 저장하는 변수 -->
 	<insert id="insBoard" parameterType="BoardDto" useGeneratedKeys="true" keyProperty="i_board">
-		 INSERT INTO t_board 
-		 (typ, seq, title, ctnt, i_user) 
-		 SELECT #{typ}, IFNULL(MAX(seq), 0) +1, #{title}, #{ctnt}, #{i_user} 
-		 FROM t_board WHERE typ = #{typ}
+		INSERT INTO t_board
+		(typ, seq, title, ctnt, i_user)
+		SELECT #{typ}, IFNULL(MAX(seq), 0) +1, #{title}, #{ctnt}, #{i_user}
+		FROM t_board WHERE typ = #{typ}
 	</insert>
 	<select id="selBoardList" resultType="BoardDomain">
 		SELECT
@@ -22,7 +21,7 @@
 		FROM t_board_favorite GROUP BY i_board) C ON A.i_board = C.i_board
 		WHERE A.typ = #{typ} ORDER BY seq DESC
 	</select>
-	
+
 	<select id="selBoard" resultType="BoardDomain">
 		SELECT A.i_board, A.seq, A.typ, A.title, A.ctnt, A.r_dt, A.hits
 		, B.i_user, B.nm AS writer_nm, ifnull(C.favorite_cnt, 0) AS favorite_cnt
@@ -30,8 +29,25 @@
 		LEFT JOIN t_user B ON A.i_user = B.i_user LEFT JOIN (
 		SELECT i_board, COUNT(i_board) AS favorite_cnt FROM t_board_favorite GROUP BY i_board
 		) C ON A.i_board = C.i_board LEFT JOIN t_board_favorite D ON A.i_board = D.i_board
-		 AND D.i_user = #{i_user} WHERE A.i_board = #{i_board}
+		AND D.i_user = #{i_user} WHERE A.i_board = #{i_board}
 	</select>
+
+	<update id="updBoard">
+		UPDATE t_board
+		<set>
+			<if test="title != null">title= #{title},</if>
+			<if test="ctnt != null">ctnt= #{ctnt}</if>
+			<if test="hits > 0">hits = hits + 1</if>
+		</set>
+		WHERE i_board= #{i_board}
+		<if test="i_user > 0">AND i_user = #{i_user}</if>
+	</update>
+
+	<update id="updBoardHits">
+		UPDATE t_board
+		SET hits = hits + 1
+		WHERE i_board = #{i_board}
+	</update>
 	
 	<delete id="delBoard">
 		DELETE FROM t_board

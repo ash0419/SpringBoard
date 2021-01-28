@@ -22,11 +22,11 @@ public class SecurityUtils {
 	}
 
 	public static UserEntity getLoginUser(HttpSession hs) {
-		return (UserEntity) hs.getAttribute(Const.LOGINUSER);
+		return (UserEntity) hs.getAttribute(Const.KEY_LOGINUSER);
 	}
 
 	public static int getLoingUserPk(HttpSession hs) {
 		UserEntity loginUser = getLoginUser(hs);
-		return loginUser == null ? 0 : loginUser.getI_user();
+		return loginUser == null ? -1 : loginUser.getI_user();
 	}
 }

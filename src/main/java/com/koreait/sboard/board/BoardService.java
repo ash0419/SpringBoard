@@ -19,6 +19,9 @@ public class BoardService {
 	}
 
 	public BoardDomain selBoard(BoardDto p) {
+		//조회수
+		p.setHits(1);
+		mapper.updBoardHits(p);
 		return mapper.selBoard(p);
 	}
 
@@ -31,5 +34,9 @@ public class BoardService {
 	
 	public int delBoard(BoardDto p) {
 		return mapper.delBoard(p);
+	}
+	
+	public int updBoard(BoardEntity p) {
+		return mapper.updBoard(p);
 	}
 }
