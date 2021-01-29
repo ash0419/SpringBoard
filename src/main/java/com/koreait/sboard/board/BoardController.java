@@ -1,6 +1,7 @@
 package com.koreait.sboard.board;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -13,10 +14,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.koreait.sboard.common.Const;
 import com.koreait.sboard.common.SecurityUtils;
+import com.koreait.sboard.model.BoardCmtDomain;
 import com.koreait.sboard.model.BoardCmtEntity;
 import com.koreait.sboard.model.BoardDto;
 import com.koreait.sboard.model.BoardEntity;
@@ -92,16 +95,21 @@ public class BoardController {
 	// -----------------------------CMT-----------------------------------------
 	@ResponseBody
 	@PostMapping("/insCmt")
-	public Map<String, Object> insCmt(@RequestBody BoardCmtEntity p, HttpSession hs) {
+	public Map<String, Object> insCmt(@RequestBody BoardCmtEntity p, HttpSession hs) { // @RequestBody : 받는 문자열이 JSON 형태라는거를 알려줘서 알아서 문자열을 해석함
 		System.out.println("i_board : " +p.getI_board());
 		System.out.println("ctnt : " +p.getCtnt());
 		
 		p.setI_user(SecurityUtils.getLoingUserPk(hs));
 		
 		Map<String, Object> returnValue = new HashMap<String, Object>();
-		returnValue.put(Const.KEY_RESULT, 1);
+		returnValue.put(Const.KEY_RESULT, service.insCmt(p));
 
 		return returnValue;
 	}
-
+	
+	@ResponseBody
+	@GetMapping("/cmtList")
+	public List<BoardCmtDomain> selCmtList(@RequestParam int i_board) {
+		return service.selCmtList(i_board);
+	}
 }

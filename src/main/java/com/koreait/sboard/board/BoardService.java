@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.koreait.sboard.model.BoardCmtDomain;
+import com.koreait.sboard.model.BoardCmtEntity;
 import com.koreait.sboard.model.BoardDomain;
 import com.koreait.sboard.model.BoardDto;
 import com.koreait.sboard.model.BoardEntity;
@@ -38,5 +40,14 @@ public class BoardService {
 	
 	public int updBoard(BoardEntity p) {
 		return mapper.updBoard(p);
+	}
+	
+	//-------------------------------CMT------------------------------------
+	public int insCmt(BoardCmtEntity p) {
+		return mapper.insCmt(p);
+	}
+	
+	public List<BoardCmtDomain> selCmtList(int i_board) {
+		return mapper.selCmtList(i_board);
 	}
 }

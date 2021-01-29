@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.koreait.sboard.model.BoardCmtDomain;
+import com.koreait.sboard.model.BoardCmtEntity;
 import com.koreait.sboard.model.BoardDomain;
 import com.koreait.sboard.model.BoardDto;
 import com.koreait.sboard.model.BoardEntity;
@@ -16,4 +18,8 @@ public interface BoardMapper {
 	int updBoardHits(BoardDto p);
 	int updBoard(BoardEntity p);
 	int delBoard(BoardDto p);
+	
+	//-------------------------------CMT------------------------------------
+	int insCmt(BoardCmtEntity p);
+	List<BoardCmtDomain> selCmtList(int p);
 }

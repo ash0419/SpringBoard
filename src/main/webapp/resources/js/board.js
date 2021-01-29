@@ -61,7 +61,7 @@ function toggleFavorite(i_board) {
 			'state': state,
 			i_board
 		}
-	}).then(function (res) {	// 통신 성공
+	}).then(function(res) {	// 통신 성공
 		if (res.data.result == 1) { // res에 있는 data객체에 접근 후 result 값 가져오기
 			//var iconClass = state == 1? 'fas' : 'far';
 			fc.innerHTML = `<i class="${state ? 'fas' : 'far'} fa-heart"></i>`;
@@ -69,40 +69,115 @@ function toggleFavorite(i_board) {
 		} else {
 			alert('에러가 발생하였습니다.')
 		}
-	}).catch(function (err) {	// 통신 실패
+	}).catch(function(err) {	// 통신 실패
 		console.err('err 발생 : ' + err)
 	});
 }
-
-var cmtFrmElem = document.querySelector('#cmtFrm');
-if(cmtFrmElem) {
-	var ctntElem = cmtFrmElem.ctnt
-	var i_board = ctntElem.dataset.id
-	var btnElem = cmtFrmElem.btn
+var cmtObj = {
+	createCmtTable: function() {
+		var tableElem = document.createElement('table')
+		tableElem.innerHTML = 
+		`<tr>
+			<th>내용</th>
+			<th>작성자</th>
+			<th>작성일</th>
+			<th>비고</th>
+		</tr>`			
+		return tableElem
+	},
 	
-	btnElem.addEventListener('click', ajax)
+	getCmtList: function(i_board) {
+		fetch(`/board/cmtList?i_board=${i_board}`)
+			.then(function(res) {
+				return res.json()
+			})
+			.then((list) => {
+				this.proc(list)
+			})
+	},
 	
-	
-	//여기까지 한번만 실행
-	function ajax () {
-		console.log(`i_board : ${i_board}`)
+	createRecode: function(item) {
 		
+	},
+	proc: function(list) {
+		var table = this.createCmtTable()
+		
+		console.log(list)
+	}	
+}
+
+var cmtListElem = document.querySelector('#cmtList')
+if (cmtListElem) {
+	var i_board = document.querySelector('#i_board').dataset.id
+	cmtObj.getCmtList(i_board)
+}
+
+//댓글 달기
+var cmtFrmElem = document.querySelector('#cmtFrm');
+if (cmtFrmElem) {
+
+	// enter를 눌렀을 때 submit이 안되게 하는 방법
+	/*
+	cmtFrmElem.onsubmit = function() {
+		return false;
+	}*/
+
+	cmtFrmElem.onsubmit = (e) => {
+		e.preventDefault()
+	}
+
+	var ctntElem = cmtFrmElem.ctnt
+	var i_board = document.querySelector('#i_board').dataset.id
+	var btnElem = cmtFrmElem.btn
+
+	// enter 눌렀을 때 submit 버튼을 누른거랑 똑같은 효과
+	ctntElem.onkeyup = function(e) {
+		console.log(e.keyCode)
+		if (e.keyCode === 13) {
+			ajax()
+		}
+	}
+	btnElem.addEventListener('click', ajax)
+
+
+	//여기까지 한번만 실행
+	function ajax() {
+		console.log(`i_board : ${i_board}`)
+
+
+		if (ctntElem.value === '') {
+			return
+		}
 		var param = {
-			i_board,
+			i_board, // 키값과 변수명이 똑같을 때만 사용 가능 => i_board: i_board,
 			ctnt: ctntElem.value
 		}
-		
-		fetch('/board/insCmt', {
-			method:'POST',
+		console.log(param)
+		fetch('/board/insCmt', { // explorer에서 돌아가지 않는다.
+			method: 'POST',
 			headers: {
-			'Contetnt-type' : 'application/json'
-		},
-		body: JSON.stringify(param) // 객체를 문자열로 바꿔주는 함수
-		}).then(function(res){
+				'Content-type': 'application/json',
+			},
+			body: JSON.stringify(param) // 객체를 문자열로 바꿔주는 함수
+		}).then(function(res) {
+			console.log(res)
 			return res.json()
-		}).then (function(myJson) {
-			console.log(myJson)
+		}).then(function(data) {
+			proc(data)
 		})
 	}
+
+	function proc(data) {
+		switch (data.result) {
+			case 0:
+				alert('댓글 작성 실패하였습니다')
+				return
+			case 1:
+				ctntElem.value = ''
+				return
+		}
+	}
 }
+
+
 
