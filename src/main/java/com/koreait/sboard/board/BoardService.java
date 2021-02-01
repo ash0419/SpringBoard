@@ -47,7 +47,11 @@ public class BoardService {
 		return mapper.insCmt(p);
 	}
 	
-	public List<BoardCmtDomain> selCmtList(int i_board) {
-		return mapper.selCmtList(i_board);
+	public List<BoardCmtDomain> selCmtList(BoardCmtEntity p) {
+		return mapper.selCmtList(p);
+	}
+	
+	public int delCmt(BoardCmtEntity p) {
+		return mapper.delCmt(p);
 	}
 }

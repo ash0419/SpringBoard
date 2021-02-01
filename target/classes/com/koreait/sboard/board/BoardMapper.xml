@@ -66,10 +66,15 @@
 	<select id="selCmtList" resultType="BoardCmtDomain">
 		SELECT A.i_cmt, A.i_board, A.ctnt, date_format(A.r_dt, '%y-%m-%d %H:%i') AS r_dt
 		, B.i_user, B.nm AS user_nm, B.profile_img AS user_img
+		, CASE WHEN A.i_user = #{i_user} THEN 1 ELSE 0 END is_mycmt 
 		FROM t_board_cmt A
 		LEFT JOIN t_user B
 		ON A.i_user = B.i_user
 		WHERE A.i_board = #{i_board}
 		ORDER BY i_cmt DESC
 	</select>
+	
+	<delete id="delCmt">
+		DELETE FROM t_board_cmt WHERE i_cmt = #{i_cmt} AND i_user = #{i_user}
+	</delete>
 </mapper>

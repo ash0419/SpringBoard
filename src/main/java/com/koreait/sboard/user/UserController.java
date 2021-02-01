@@ -24,6 +24,12 @@ public class UserController {
 //		return "user/login";
 		
 	}
+	
+	@GetMapping("/logout") // 2차 주소값
+	public String logout(HttpSession hs) {
+		hs.invalidate();
+		return "redirect: /user/login";
+	}
 
 	@RequestMapping("/join") // 2차 주소값, method=RequestMethod.POST 생략하면 get방식
 	public String join() {

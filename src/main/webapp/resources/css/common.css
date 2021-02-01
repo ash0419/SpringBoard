@@ -123,3 +123,43 @@ header ul li a:hover:not(.active) {
 .profile-td img {
 	
 }
+
+/* ************************모달창 ***********************************/
+.modal_wrap {
+	display: none;
+	width: 400px;
+	height: 200px;
+	position: fixed;
+	top: 40%;
+	left: 30%;
+	background: #eee;
+	z-index: 2;
+}
+
+.black_bg {
+	display: none;
+	position: fixed;
+	content: "";
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	top: 0;
+	left: 0;
+	z-index: 1;
+}
+
+.modal_close {
+	width: 26px;
+	height: 26px;
+	position: absolute;
+	top: -30px;
+	right: 0;
+}
+
+.modal_close>a {
+	display: block;
+	width: 100%;
+	height: 100%;
+	background: url(https://img.icons8.com/metro/26/000000/close-window.png);
+	text-indent: -9999px;
+}

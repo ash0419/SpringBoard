@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.koreait.sboard.common.Const;
@@ -109,7 +108,18 @@ public class BoardController {
 	
 	@ResponseBody
 	@GetMapping("/cmtList")
-	public List<BoardCmtDomain> selCmtList(@RequestParam int i_board) {
-		return service.selCmtList(i_board);
+	public List<BoardCmtDomain> selCmtList(BoardCmtEntity p, HttpSession hs) {
+		System.out.println(p.getI_board());
+		p.setI_user(SecurityUtils.getLoingUserPk(hs));
+		return service.selCmtList(p);
+	}
+	
+	@ResponseBody
+	@DeleteMapping("/delCmt")
+	public Map<String, Object> delCmt(BoardCmtEntity p, HttpSession hs) {
+		p.setI_user(SecurityUtils.getLoingUserPk(hs));
+		Map<String, Object> returnValue = new HashMap<String, Object>();
+		returnValue.put(Const.KEY_RESULT, service.delCmt(p));
+		return returnValue;
 	}
 }
