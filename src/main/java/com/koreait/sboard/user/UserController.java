@@ -55,4 +55,15 @@ public class UserController {
 		return "redirect:/user/login"; // sendRedirect
 	}
 
+	@GetMapping("/findPw") // 2차 주소값
+	public void findPw() {
+		
+	}
+	
+	@GetMapping("/findPwProc") // 2차 주소값
+	public String findPwProc(String user_id) {
+		System.out.println("user_id: " +user_id);
+		service.findPwProc(user_id);
+		return "user/findPw";
+	}
 }

@@ -46,4 +46,10 @@ public class UserService {
 		
 		return mapper.insUser(param);
 	}
+	
+	public int findPwProc(String user_id) {
+		String code = SecurityUtils.getPrivateCode(5);
+		System.out.println("code: " +code);
+		return 0;
+	}
 }

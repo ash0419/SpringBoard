@@ -56,7 +56,7 @@
 
 	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<beans:property name="dataSource" ref="dataSource" />
-		<beans:property name="typeAliasesPackage" value="com.koreait.sboard" /> <!-- Alias를 주면 자동을 찾아서 정리해준다. @Alias를 사용할 수 있게 해주는 부분-->
+		<beans:property name="typeAliasesPackage" value="com.koreait.sboard" /> <!-- @Alias를 안 쓰기 위해서 사용 -->
 	</beans:bean>
 	
 	<mybatis-spring:scan base-package="com.koreait.sboard" /> <!-- 위에 네임스페이스 부분에 등록되어 있어야한다. java에선 import -->

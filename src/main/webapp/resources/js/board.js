@@ -84,15 +84,40 @@ function openCloseCmtModal(state) {
 }
 
 // 댓글 수정
-function modCmt(cmt, ctnt) {
+function modCmt(i_cmt, ctnt) {
 	openCloseCmtModal('block')
-	
-	var cmtCtntElem = document.querySelector('.modal_wrap #cmtCtnt')
-	var cmtModBtn = document.querySelector('.modal_wrap #cmtModBtn')
-	
-	cmtCtntElem.value = ctnt
-}
 
+	var cmtCtntElem = document.querySelector('.modal_wrap #cmtCtnt')
+	cmtCtntElem.value = ctnt
+	var cmtModBtn = document.querySelector('.modal_wrap #cmtModBtn')
+
+	cmtModBtn.onclick = ajax
+
+	function ajax() {
+		var param = {
+			i_cmt,
+			ctnt: cmtCtntElem.value
+		}
+		fetch('/board/updCmt', {
+			method: 'put',
+			headers: {
+				'Content-type': 'application/json',
+			},
+			body: JSON.stringify(param) // 객체를 문자열로 바꿔주는 함수
+		}).then(res => res.json()) // 인자값이 1개일때는 괄호 안해줘도 댐 리턴할 떈 {}을 넣으면 안댄다.
+		.then((myJson) => {
+			openCloseCmtModal('none')
+			
+			switch (myJson.result) {
+			case 1:
+				cmtObj.getCmtList()
+				return
+			case 0:
+				alert('댓글 수정 실패')
+				}
+		})
+	}
+}
 // 댓글 삭제
 function delCmt(i_cmt, i_board) {
 	if (!confirm('삭제하시겠습니까?')) {

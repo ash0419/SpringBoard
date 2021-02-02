@@ -29,4 +29,13 @@ public class SecurityUtils {
 		UserEntity loginUser = getLoginUser(hs);
 		return loginUser == null ? -1 : loginUser.getI_user();
 	}
+	
+	public static String getPrivateCode(int len) {
+		String str = "";
+		for(int i=0; i<len; i++) {
+			str += (int)(Math.random() * 10);
+		}
+		
+		return str;
+	}
 }

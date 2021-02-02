@@ -48,3 +48,15 @@ function chkPw() {
 		return true;
 	*/
 }
+
+function clkFindPwBtn() {
+	var user_id = document.querySelector('#findPwUserId').value
+	
+	ajax()
+	
+	function ajax () {
+		fetch(`/user/findPwProc?user_id=${user_id}`, {
+					
+		})	
+	}
+}

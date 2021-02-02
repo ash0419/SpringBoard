@@ -15,6 +15,7 @@
 		</form>
 		<div style="color: red;">${msg}</div>
 		<a href="/user/join">join</a>
+		<a href="/user/findPw">find password</a>
 	</div>
 </div>
 <div>

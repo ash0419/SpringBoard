@@ -77,4 +77,8 @@
 	<delete id="delCmt">
 		DELETE FROM t_board_cmt WHERE i_cmt = #{i_cmt} AND i_user = #{i_user}
 	</delete>
+		
+	<update id="updCmt">
+		UPDATE t_board_cmt SET ctnt = #{ctnt} WHERE i_cmt = #{i_cmt} AND i_user = #{i_user}
+	</update>
 </mapper>

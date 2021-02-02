@@ -8,11 +8,11 @@
 	<insert id="insUser" parameterType="UserEntity">
 		INSERT INTO t_user
 		(
-			user_id, user_pw, salt, nm, gender, ph
+			user_id, user_pw, salt, nm, gender, ph, email
 		)
 		VALUES
 		(
-			#{user_id}, #{user_pw}, #{salt}, #{nm}, #{gender}, #{ph}
+			#{user_id}, #{user_pw}, #{salt}, #{nm}, #{gender}, #{ph}, #{email}
 		)
 		<!-- #을 쓰면 형태에 따라 알아서 호따옴표를 붙여준다. $를 쓰면 호따옴표 없이 문자 자체로 들어간다. -->
 	</insert>

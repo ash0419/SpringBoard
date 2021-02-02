@@ -15,6 +15,9 @@
 				<input type="text" name="nm" placeholder="Your Name" required>
 			</div>
 			<div>
+				<input type="email" name="email" placeholder="Your Email" required>
+			</div>
+			<div>
 				Gender : <label>Woman<input type="radio" name="gender" value="0" checked></label> <label>Man<input type="radio" name="gender" value="1"></label>
 			</div>
 			<div>
