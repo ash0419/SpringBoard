@@ -1,15 +1,14 @@
 package com.koreait.sboard.user;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.koreait.sboard.common.Const;
+import com.koreait.sboard.common.MailUtils;
 import com.koreait.sboard.common.SecurityUtils;
-import com.koreait.sboard.common.Utils;
+import com.koreait.sboard.model.AuthEntity;
 import com.koreait.sboard.model.UserEntity;
 
 // logic 담당
@@ -18,6 +17,9 @@ public class UserService {
 
 	@Autowired // bean 등록된 것 중에 자동으로 등록 (Unique)
 	private UserMapper mapper;
+	
+	@Autowired
+	private MailUtils mailUtils;
 	
 	// 1: 로그인 성공, 2: 아이디 없음, 3: 비밀번호 틀림
 	public int login(UserEntity param, HttpSession hs) {
@@ -47,9 +49,26 @@ public class UserService {
 		return mapper.insUser(param);
 	}
 	
-	public int findPwProc(String user_id) {
-		String code = SecurityUtils.getPrivateCode(5);
+	// 0: 메일전송 실패, 1: 성공 2: 아이디 확인
+	public int findPwProc(AuthEntity p) {
+		//이메일 주소 얻어오기
+		UserEntity p2 = new UserEntity();
+		p2.setUser_id(p.getUser_id());
+		UserEntity vo = mapper.selUser(p2);
+		if(vo == null) {
+			return 2;
+		}
+		String email = vo.getEmail();
+		
+		String code = SecurityUtils.getPrivateCode(10);
 		System.out.println("code: " +code);
-		return 0;
+		
+		mapper.delAuth(p); //일단 삭제
+		
+		p.setCd(code);
+		mapper.insAuth(p);
+		
+		System.out.println("email : " +email);
+		return mailUtils.sendFindPwEmail(email, code);
 	}
 }

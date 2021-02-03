@@ -19,7 +19,7 @@
 	
 	<select id="selUser" resultType="UserEntity">
 		SELECT 
-			i_user, nm
+			i_user, nm, email
 			<if test="i_user > 0">
 				, user_id, ph, gender, profile_img
 			</if>
@@ -38,4 +38,21 @@
 			</if>
 		</where>
 	</select>
+	
+	<!-- ////////////////////////////////// 비밀번호 찾기 ////////////////////////////////// -->
+	<insert id="insAuth">
+		INSERT INTO t_auth
+		(user_id, cd)
+		VALUES
+		(#{user_id}, #{cd})
+	</insert>
+	<select id="selAuth" resultType="AuthEntity">
+		SELECT cd
+		FROM t_auth
+		WHERE user_id = #{user_id}
+	</select>
+	<delete id="delAuth">
+		DELETE FROM t_auth
+		WHERE user_id = #{user_id}
+	</delete>
 </mapper>

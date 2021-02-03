@@ -4,11 +4,11 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.koreait.sboard.model.AuthEntity;
 import com.koreait.sboard.model.UserEntity;
 
 @Controller
@@ -61,9 +61,11 @@ public class UserController {
 	}
 	
 	@GetMapping("/findPwProc") // 2차 주소값
-	public String findPwProc(String user_id) {
-		System.out.println("user_id: " +user_id);
-		service.findPwProc(user_id);
+	public String findPwProc(AuthEntity p) {
+		System.out.println("user_id: " +p.getUser_id());
+		service.findPwProc(p);
+		
+		
 		return "user/findPw";
 	}
 }

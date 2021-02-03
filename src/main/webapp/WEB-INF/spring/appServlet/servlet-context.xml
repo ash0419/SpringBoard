@@ -60,4 +60,12 @@
 	</beans:bean>
 	
 	<mybatis-spring:scan base-package="com.koreait.sboard" /> <!-- 위에 네임스페이스 부분에 등록되어 있어야한다. java에선 import -->
+	
+	<beans:bean class="com.koreait.sboard.common.MailUtils">
+		<beans:property name="userId" value="ash0419"/>
+		<beans:property name="userPw" value="ipod0508"/>
+		<beans:property name="host" value="smtp.naver.com"/>
+		<beans:property name="port" value="587"/>
+		<beans:property name="fromEmail" value="ash0419@naver.com"/>
+	</beans:bean>
 </beans:beans>
