@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.koreait.sboard.common.Const;
 import com.koreait.sboard.common.MailUtils;
 import com.koreait.sboard.common.SecurityUtils;
+import com.koreait.sboard.model.AuthDto;
 import com.koreait.sboard.model.AuthEntity;
 import com.koreait.sboard.model.UserEntity;
 
@@ -40,7 +41,7 @@ public class UserService {
 	}
 	
 	public int insUser(UserEntity param) {
-		String salt = SecurityUtils.genSalt();
+		String salt = SecurityUtils.getSalt();
 		String encryptPw = SecurityUtils.hashPassword(param.getUser_pw(), salt);
 		
 		param.setSalt(salt);
@@ -69,6 +70,26 @@ public class UserService {
 		mapper.insAuth(p);
 		
 		System.out.println("email : " +email);
-		return mailUtils.sendFindPwEmail(email, code);
+		return mailUtils.sendFindPwEmail(email, p.getUser_id(), code);
+	}
+	
+	// 비밀번호 변경
+	public int findPwAuthProc(AuthDto p) {
+		// cd, user_id 확인 작업
+		AuthEntity ae = mapper.selAuth(p);
+		if(ae == null) {
+			return 0;
+		}
+		
+		//비밀번호 암호화
+		String salt = SecurityUtils.getSalt();
+		String encryptPw = SecurityUtils.hashPassword(p.getUser_pw(), salt);
+		
+		UserEntity p2 = new UserEntity();
+		p2.setUser_id(p.getUser_id());
+		p2.setUser_pw(encryptPw);
+		p2.setSalt(salt);
+		
+		return mapper.updUser(p2);
 	}
 }

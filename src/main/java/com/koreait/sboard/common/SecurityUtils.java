@@ -8,7 +8,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import com.koreait.sboard.model.UserEntity;
 
 public class SecurityUtils {
-	public static String genSalt() {
+	public static String getSalt() {
 		return BCrypt.gensalt();
 	}
 	

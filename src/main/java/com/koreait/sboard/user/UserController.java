@@ -1,13 +1,20 @@
 package com.koreait.sboard.user;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.koreait.sboard.common.Const;
+import com.koreait.sboard.model.AuthDto;
 import com.koreait.sboard.model.AuthEntity;
 import com.koreait.sboard.model.UserEntity;
 
@@ -22,9 +29,9 @@ public class UserController {
 	public void login() {
 //		model.addAttribute("page", Utils.myViewResolver("user/login"));
 //		return "user/login";
-		
+
 	}
-	
+
 	@GetMapping("/logout") // 2차 주소값
 	public String logout(HttpSession hs) {
 		hs.invalidate();
@@ -40,7 +47,7 @@ public class UserController {
 	@PostMapping("/login")
 	public String loginProc(UserEntity param, HttpSession hs) {
 		int result = service.login(param, hs);
-		if(result == 1 ) {
+		if (result == 1) {
 			return "redirect:/board/home";
 		}
 		return null;
@@ -57,15 +64,34 @@ public class UserController {
 
 	@GetMapping("/findPw") // 2차 주소값
 	public void findPw() {
-		
+
 	}
-	
+
 	@GetMapping("/findPwProc") // 2차 주소값
 	public String findPwProc(AuthEntity p) {
-		System.out.println("user_id: " +p.getUser_id());
+		System.out.println("user_id: " + p.getUser_id());
 		service.findPwProc(p);
-		
-		
+
 		return "user/findPw";
 	}
+
+	@GetMapping("/findPwAuth")
+	public void findPwAuth() {
+
+	}
+
+	@ResponseBody
+	@PostMapping("findPwAuth")
+	public Map<String, Object> findPwAuth(@RequestBody AuthDto p) {
+		System.out.println("cd : " + p.getCd());
+		System.out.println("user_id : " + p.getUser_id());
+		System.out.println("user_pw : " + p.getUser_pw());
+
+		Map<String, Object> rVal = new HashMap<String, Object>();
+
+		rVal.put(Const.KEY_RESULT, service.findPwAuthProc(p));
+
+		return rVal;
+	}
+
 }

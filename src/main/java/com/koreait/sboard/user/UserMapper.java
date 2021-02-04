@@ -9,14 +9,11 @@ import com.koreait.sboard.model.UserEntity;
 @Mapper
 public interface UserMapper {
 	// xml에 id값이랑 변수명이 동일해야 매핑이 가능하다.
-	UserEntity selUser(UserEntity param);
-
-	int insUser(UserEntity param);
-
+	UserEntity selUser(UserEntity p);
+	int insUser(UserEntity p);
+	int updUser(UserEntity p);
 	/*-------------------------------비밀번호 찾기--------------------*/
 	int insAuth(AuthEntity p);
-
 	AuthEntity selAuth(AuthEntity p);
-
 	int delAuth(AuthEntity p);
 }

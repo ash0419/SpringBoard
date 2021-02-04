@@ -50,9 +50,29 @@
 		SELECT cd
 		FROM t_auth
 		WHERE user_id = #{user_id}
+		<if test="cd != null and cd!= ''">
+			AND cd = #{cd}
+		</if>
 	</select>
 	<delete id="delAuth">
 		DELETE FROM t_auth
 		WHERE user_id = #{user_id}
 	</delete>
+	
+	<update id="updUser">
+		UPDATE t_user
+		<set>
+			<if test="salt != null and salt != ''">salt = #{salt},</if>
+			<if test="user_pw != null and user_pw != ''">user_pw = #{user_pw},</if>
+			m_dt = now()
+		</set>
+		<where>
+			<if test="i_user > 0">
+				i_user = #{i_user}
+			</if>
+			<if test="user_id != null and user_id != ''">
+				AND user_id = #{user_id}
+			</if>
+		</where>
+	</update>
 </mapper>
