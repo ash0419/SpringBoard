@@ -47,7 +47,7 @@
 		(#{user_id}, #{cd})
 	</insert>
 	<select id="selAuth" resultType="AuthEntity">
-		SELECT cd
+		SELECT cd, TIMESTAMPDIFF(SECOND, r_dt, NOW()) AS rest_sec
 		FROM t_auth
 		WHERE user_id = #{user_id}
 		<if test="cd != null and cd!= ''">

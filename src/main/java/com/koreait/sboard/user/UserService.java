@@ -78,7 +78,9 @@ public class UserService {
 		// cd, user_id 확인 작업
 		AuthEntity ae = mapper.selAuth(p);
 		if(ae == null) {
-			return 0;
+			return 0;	// id가 없었음
+		} else if(ae.getRest_sec() > Const.AUTH_REST_SEC) {
+			return 2;	// 인증시간 초과
 		}
 		
 		//비밀번호 암호화

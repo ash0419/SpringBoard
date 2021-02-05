@@ -10,4 +10,5 @@ public class Const {
 	public static final String KEY_LIST = "list";
 	public static final String KEY_DATA = "data";
 	public static final String KEY_RESULT = "result";
+	public static final int AUTH_REST_SEC = 10;
 }

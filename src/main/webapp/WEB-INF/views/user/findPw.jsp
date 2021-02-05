@@ -11,4 +11,5 @@
 		<div style="color: red;" id="findPwMsg"></div>
 		<a href="/user/login">Go to Login</a>
 	</div>
+	<div id="countDownTime"></div>
 </div>
