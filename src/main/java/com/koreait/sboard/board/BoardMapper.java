@@ -13,6 +13,7 @@ import com.koreait.sboard.model.BoardEntity;
 @Mapper
 public interface BoardMapper {
 	int insBoard(BoardEntity p);
+	int selMaxPageNum(BoardDto p);
 	List<BoardDomain> selBoardList(BoardDto p);
 	BoardDomain selBoard(BoardDto p);
 	int updBoardHits(BoardDto p);

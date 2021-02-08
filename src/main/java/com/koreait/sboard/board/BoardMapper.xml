@@ -20,8 +20,13 @@
 		LEFT JOIN (SELECT i_board, COUNT(i_board) AS favorite_cnt
 		FROM t_board_favorite GROUP BY i_board) C ON A.i_board = C.i_board
 		WHERE A.typ = #{typ} ORDER BY seq DESC
+		LIMIT #{sIdx}, #{recordCntPerPage}
 	</select>
 
+	<select id="selMaxPageNum" resultType="_int">
+		SELECT CEIL(COUNT(i_board) / #{recordCntPerPage}) FROM t_board
+		WHERE typ = #{typ}
+	</select>
 	<select id="selBoard" resultType="BoardDomain">
 		SELECT A.i_board, A.seq, A.typ, A.title, A.ctnt, A.r_dt, A.hits
 		, B.i_user, B.nm AS writer_nm, ifnull(C.favorite_cnt, 0) AS favorite_cnt

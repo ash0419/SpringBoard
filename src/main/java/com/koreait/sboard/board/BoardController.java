@@ -38,7 +38,7 @@ public class BoardController {
 	@GetMapping("/list")
 	// @RequestParam(required = false, defaultValue = "1") int typ
 	public void list(Model model, BoardDto p) {
-		model.addAttribute(Const.KEY_LIST, service.selBoardList(p));
+		model.addAttribute(Const.KEY_DATA, service.selBoardList(p));
 	}
 
 	@GetMapping("/reg")
