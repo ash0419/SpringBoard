@@ -14,6 +14,16 @@
 		</c:when>
 		<c:otherwise>
 			<div>
+			<span id="">
+				<select id ="searchType">
+					<option value="1">제목</option>
+					<option value="2">내용</option>
+					<option value="3">제목+내용</option>
+					<option value="4">작성자</option>
+				</select>
+				<input type="search" id="searchTxt">
+				<input type="button" value="검색" onclick="">
+			</span>
 				<form id="listFrm" action="/board/list" method="get">
 				<input type="hidden" name="typ">
 				<input type="hidden" name="page" value="1">
