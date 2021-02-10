@@ -7,7 +7,7 @@
 				<input type="text" name="user_id" value="mic" placeholder="id">
 			</div>
 			<div>
-				<input type="password" name="user_pw" value="1212" placeholder="password">
+				<input type="password" name="user_pw" value="1234" placeholder="password">
 			</div>
 			<div>
 				<input type="submit" value="LOGIN">

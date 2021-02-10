@@ -1,6 +1,6 @@
 'use strict';
 
-//글 제목 클릭
+
 function clkArticle(i_board) {
 	var url = `/board/detail?i_board=${i_board}`;
 	location.href = url; //주소값 이동

@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.koreait.sboard.common.Const;
+import com.koreait.sboard.common.SecurityUtils;
 import com.koreait.sboard.model.AuthDto;
 import com.koreait.sboard.model.AuthEntity;
 import com.koreait.sboard.model.UserEntity;
@@ -93,5 +95,23 @@ public class UserController {
 
 		return rVal;
 	}
-
+	
+	@GetMapping("/profile")
+	public void profile() {
+		
+	}
+	
+	@ResponseBody
+	@GetMapping("/profileData")
+	public UserEntity profileData(UserEntity p, HttpSession hs) {
+		p.setI_user(SecurityUtils.getLoingUserPk(hs));
+		return service.selUser(p);
+	}
+	
+	@ResponseBody
+	@PostMapping("/profileUpload")
+	public int profileUpload(MultipartFile[] imgs, HttpSession hs) {
+		System.out.println("imgs : " +imgs.length);
+		return service.profileUpload(imgs, hs);
+	}
 }

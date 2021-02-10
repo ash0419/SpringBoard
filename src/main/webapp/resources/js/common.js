@@ -8,3 +8,8 @@ function chkEmptyEle(ele, eleNm) {
 	}
 	return false;
 }
+
+// 뒤로가기
+function back() {
+	history.back()
+}

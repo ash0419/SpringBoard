@@ -68,4 +68,8 @@
 		<beans:property name="port" value="587"/>
 		<beans:property name="fromEmail" value="ash0419@naver.com"/>
 	</beans:bean>
+	
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="10485760" />
+	</beans:bean>
 </beans:beans>
