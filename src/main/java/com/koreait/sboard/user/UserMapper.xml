@@ -39,6 +39,12 @@
 		</where>
 	</select>
 	
+	<select id="selUserImgList" resultType="UserImgEntity">
+		SELECT *
+		FROM t_user_img
+		WHERE i_user = #{i_user}
+	</select>
+	
 	<!-- ////////////////////////////////// 비밀번호 찾기 ////////////////////////////////// -->
 	<insert id="insAuth">
 		INSERT INTO t_auth

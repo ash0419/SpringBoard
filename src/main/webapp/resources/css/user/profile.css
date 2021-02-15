@@ -1,0 +1,9 @@
+@charset "UTF-8";
+
+.modalContainer .modalContent .splide{
+	height: 90%;
+	color: white;
+}
+.modalContainer .modalContent .splide .splide__track .splide__list .splide__slide img{
+	height: 70%;
+}
