@@ -34,9 +34,18 @@ function upload() {
 		fetch('/user/profileUpload', {
 			method: 'post',
 			body: formData
+		}).then(res => res.json())
+		.then(myJson => {
+			if(myJson === 1) {
+				getData()
+			}else {
+				alert('이미지 업로드 실패')
+			}
 		})
 	}
 }
+
+var splide = null
 var centerContElem = document.querySelector('.centerCont')
 function getData() {
 	fetch('/user/profileData')
@@ -46,12 +55,12 @@ function getData() {
 		})
 
 	function proc(myJson) {
-		var div = document.createElement('div')
+		const div = document.createElement('div')
 		div.classList.add('profileBox')
-		var imgSrc = '/res/img/basic_profile.jpg'
-		var imgOption = ''
-		var delProfileHTML = ''
-
+		let imgOption = ''
+		let delProfileHTML = ''
+		const imgBasicSrc = `/res/img/basic_profile.jpg`
+		
 		if (myJson.profile_img) {
 			imgSrc = `/res/img/user/${myJson.i_user}/${myJson.profile_img}`
 			imgOption = ` onclick="clkProfile()" class="pointer" `
@@ -62,14 +71,14 @@ function getData() {
 			`
 		}
 
-		var gender = '여'
+		let gender = '여'
 		if (myJson.gender === 1) {
 			gender = '남'
 		}
 
 		div.innerHTML = `
 			<div class="circular--landscape circular--size200">
-				<img id="profileImg" src="${imgSrc}" ${imgOption} alt="프로필 이미지">
+				<img id="profileImg" src="${imgSrc}" ${imgOption} alt="프로필 이미지" onerror ="this.onerror = null; this.src='${imgBasicSrc}'">
 			</div>
 			<div>
 				<div>아이디 : ${myJson.user_id}</div>
@@ -79,7 +88,7 @@ function getData() {
 			</div>
 			${delProfileHTML}
 		`
-		centerContElem.innerHTML = ''
+		centerContElem.innerHTML = null
 		centerContElem.append(div)
 	}
 }
@@ -92,28 +101,61 @@ function clkProfile() {
 	getProfileImgList()
 }
 
+//프로필 이미지 리스트 가져오기
 function getProfileImgList() {
 	fetch('/user/profileImgList')
-	.then(res => res.json())
-	.then(myJson => {
-		profileImgCarouselProc(myJson)
+		.then(res => res.json())
+		.then(myJson => {
+			profileImgCarouselProc(myJson)
+		})
+}
+
+// 프로필 이미지 삭제
+function delProfileImg({ i_img, img }) {
+	return new Promise(resolve => {
+		fetch(`/user/profileImg?i_img=${i_img}&img=${img}`, {
+			method: 'delete'
+		})
+			.then(res => res.json())
+			.then(myJson => {
+				resolve(myJson)
+			})
 	})
 }
 
 function profileImgCarouselProc(myJson) {
 	console.log(myJson)
 	var splideList = document.querySelector('.splide__list')
-	myJson.forEach((item) => {
-		var div = document.createElement('div')
+	splideList.innerHTML = null
+	myJson.forEach(function(item) {
+		const div = document.createElement('div')
 		div.classList.add('splide__slide')
-		var img = document.createElement('img')
-		
-		img.src = `/res/img/users/${item.i_user}/${item.img}`
-		div.append(img)
-		splideList.append(div)
-	})	
-	new Splide( '.splide' ).mount()
+		const img = document.createElement('img')
 
+		const span = document.createElement('span')
+		//innerText innerHtml은 기존에 있던걸 날림 append는 기존에 있는거에 덫붙임
+		span.classList.add('pointer')
+		span.append('X')
+		span.addEventListener('click', () => {
+			delProfileImg(item).then(myJson => {
+				if (myJson ===1) {
+					div.remove()
+					splide.refresh()
+				} else {
+					alert('삭제를 실패하였습니다.')
+				}
+			})
+		})
+
+		img.src = `/res/img/user/${item.i_user}/${item.img}`
+		div.append(img)
+		div.append(span)
+		splideList.append(div)
+	})
+	if(splide != null) {
+		splide.destroy(completely = true)
+	}
+	splide = new Splide('.splide').mount()
 }
 
 function openModal() {

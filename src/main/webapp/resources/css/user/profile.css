@@ -1,9 +1,27 @@
 @charset "UTF-8";
 
-.modalContainer .modalContent .splide{
+.modalContainer .modalContent .pointer {
+	color: #fff;
+}
+
+.modalContainer .modalContent .splide {
 	height: 90%;
 	color: white;
 }
-.modalContainer .modalContent .splide .splide__track .splide__list .splide__slide img{
-	height: 70%;
+
+.modalContent .splide__track {
+	height: 90%;
+}
+
+.modalContent .splide__track .splide__list {
+	height: 100%;
+}
+
+.modalContent .splide__track .splide__list .splide__slide {
+	display: flex;
+	justify-content: center;
+}
+
+.modalContent .splide__track .splide__list .splide__slide img {
+	height: 100%;
 }

@@ -14,9 +14,11 @@ public interface UserMapper {
 	// xml에 id값이랑 변수명이 동일해야 매핑이 가능하다.
 	int insUser(UserEntity p);
 	UserEntity selUser(UserEntity p);
-	List<UserImgEntity> selUserImgList(UserEntity p);
 	int updUser(UserEntity p);
+	/*------------------프로필 이미지-------*/
 	int insUserImg(UserImgEntity p);
+	List<UserImgEntity> selUserImgList(UserEntity p);
+	int delUserImg(UserImgEntity p);
 	/*-------------------------------비밀번호 찾기--------------------*/
 	int insAuth(AuthEntity p);
 	AuthEntity selAuth(AuthEntity p);

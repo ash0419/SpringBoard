@@ -149,4 +149,14 @@ public class UserService {
 		}
 		return 1;
 	}
+	
+	public int delProfileImg(UserImgEntity p) {
+		p.setI_user(SecurityUtils.getLoingUserPk(hs));
+		int result = mapper.delUserImg(p);
+		if(result == 1) { // 실제 이미지 삭제
+			String path = "/img/user/" +p.getI_user() + "/" +p.getImg();
+			fUtils.delFile(path);
+		}
+		return result;
+	}
 }

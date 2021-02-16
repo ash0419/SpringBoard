@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -121,5 +122,11 @@ public class UserController {
 	@GetMapping("/profileImgList")
 	public List<UserImgEntity> profileImgList(UserEntity p) {
 		return service.selUserImgList(p);
+	}
+	
+	@ResponseBody
+	@DeleteMapping("/profileImg")
+	public int DelProfileImg(UserImgEntity p) {
+		return service.delProfileImg(p);
 	}
 }
